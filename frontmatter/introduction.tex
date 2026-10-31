@@ -1,0 +1,63 @@
+\clearpage
+\chapter*{MỞ ĐẦU}
+\phantomsection
+\addcontentsline{toc}{chapter}{MỞ ĐẦU}
+
+\section*{1. Lý do chọn đề tài}
+\phantomsection
+\addcontentsline{toc}{section}{1. Lý do chọn đề tài}
+
+Ký túc xá là bộ phận hỗ trợ trực tiếp đời sống học tập của sinh viên. Trong quá trình vận hành, cán bộ phải theo dõi số lượng phòng và giường, tiếp nhận nhu cầu ở nội trú, bố trí chỗ ở, lập hợp đồng, ghi nhận các khoản phí và xử lý việc trả phòng. Những nghiệp vụ này liên kết chặt chẽ với nhau vì một thay đổi ở trạng thái giường có thể ảnh hưởng đến kết quả tìm phòng, yêu cầu đặt phòng, hợp đồng và khả năng tiếp nhận sinh viên mới.
+
+Khi dữ liệu được ghi chép ở nhiều sổ hoặc tệp riêng lẻ, cán bộ khó xác định trạng thái phòng tại cùng một thời điểm. Sinh viên cũng cần một kênh thống nhất để tìm phòng phù hợp, gửi yêu cầu đặt phòng, theo dõi khoản phí và đề nghị trả phòng. Vì vậy, đề tài \textbf{Hệ thống quản lý ký túc xá PTIT} được lựa chọn nhằm xây dựng một quy trình xuyên suốt, trong đó dữ liệu của giai đoạn trước trở thành cơ sở cho giai đoạn sau nhưng mỗi chức năng vẫn có ranh giới xử lý riêng.
+
+Đề tài phù hợp với nội dung học phần Phân tích và thiết kế hệ thống thông tin vì chứa nhiều đối tượng nghiệp vụ có quan hệ rõ ràng và các quy tắc cần kiểm soát, chẳng hạn không giữ một giường cho nhiều sinh viên trong cùng thời gian, không lập hai hợp đồng còn hiệu lực cho một sinh viên và không giải phóng giường trước khi hoàn tất trả phòng.
+
+\section*{2. Mục tiêu đề tài}
+\phantomsection
+\addcontentsline{toc}{section}{2. Mục tiêu đề tài}
+
+Mục tiêu tổng quát là xây dựng mô hình hệ thống thông tin hỗ trợ quản lý vòng đời chỗ ở của sinh viên tại ký túc xá, tạo nguồn dữ liệu thống nhất để sinh viên và cán bộ sử dụng theo đúng quyền hạn.
+
+Các mục tiêu cụ thể gồm:
+\begin{itemize}[leftmargin=1.4em]
+\item Cung cấp thông tin phòng và giường còn khả dụng để sinh viên tìm kiếm theo nhu cầu thực tế.
+\item Ghi nhận yêu cầu đặt phòng và hỗ trợ cán bộ giữ một chỗ cụ thể cho sinh viên.
+\item Hỗ trợ lập hợp đồng và xác nhận bàn giao phòng theo các điều kiện đã xác định.
+\item Theo dõi khoản phí nội trú và ghi nhận kết quả thanh toán của sinh viên.
+\item Tiếp nhận yêu cầu trả phòng, kết thúc hợp đồng và giải phóng giường theo đúng quy trình.
+\item Tạo cơ sở dữ liệu đủ nhất quán để phục vụ tra cứu, kiểm tra và mở rộng báo cáo sau này.
+\end{itemize}
+
+\section*{3. Đối tượng nghiên cứu}
+\phantomsection
+\addcontentsline{toc}{section}{3. Đối tượng nghiên cứu}
+
+Đối tượng nghiên cứu là quy trình quản lý chỗ ở tại ký túc xá, gồm hai tác nhân chính: sinh viên và cán bộ quản lý ký túc xá. Các đối tượng dữ liệu được khảo sát gồm phòng, giường, yêu cầu đặt phòng, giữ chỗ, hợp đồng, bàn giao, khoản phí, giao dịch thanh toán và yêu cầu trả phòng.
+
+\section*{4. Phạm vi nghiên cứu}
+\phantomsection
+\addcontentsline{toc}{section}{4. Phạm vi nghiên cứu}
+
+Phạm vi chức năng gồm mười Use Case, tổ chức theo năm giai đoạn của vòng đời chỗ ở: xem phòng (UC01, UC02), đặt phòng (UC03, UC04), thuê phòng (UC05, UC06), đóng phí (UC07, UC08) và trả phòng (UC09, UC10).
+
+Đề tài chưa xử lý các nghiệp vụ không trực tiếp thuộc vòng đời chỗ ở như quản lý khách ra vào, đăng ký tạm trú, quản lý bưu phẩm, sửa chữa cơ sở vật chất, xử lý vi phạm nội trú và thống kê điện nước chi tiết. Tích hợp cổng thanh toán thực tế, ký số hợp đồng và đồng bộ với hệ thống đào tạo được xem là hướng mở rộng.
+
+\section*{5. Phương pháp nghiên cứu}
+\phantomsection
+\addcontentsline{toc}{section}{5. Phương pháp nghiên cứu}
+
+Nhóm vận dụng phương pháp phân tích và thiết kế hướng đối tượng, mô hình hóa bằng UML. Phần phân tích xác định tác nhân, yêu cầu, đặc tả Use Case, biểu đồ hoạt động và lớp nghiệp vụ. Phần thiết kế (sẽ triển khai ở các chương tiếp theo) trình bày kiến trúc, biểu đồ tuần tự, lớp thiết kế, cơ sở dữ liệu và giao diện. Công nghệ định hướng gồm ReactJS, Java, PostgreSQL và Redis.
+
+\section*{6. Bố cục báo cáo}
+\phantomsection
+\addcontentsline{toc}{section}{6. Bố cục báo cáo}
+
+Báo cáo gồm các phần chính sau:
+\begin{itemize}[leftmargin=1.4em]
+\item \textbf{Mở đầu:} lý do chọn đề tài, mục tiêu, đối tượng, phạm vi, phương pháp và bố cục.
+\item \textbf{Chương 1 -- Giới thiệu đề tài và lựa chọn công nghệ:} giới thiệu đề tài, đối tượng sử dụng, phạm vi hệ thống, quy trình nghiệp vụ tổng quát và định hướng giải pháp công nghệ.
+\item \textbf{Chương 2 -- Phân tích hệ thống:} khảo sát nghiệp vụ, phân tích yêu cầu, mô hình Use Case tổng quát và đặc tả từng nhóm chức năng từ UC01 đến UC10.
+\item \textbf{Kết luận và hướng phát triển:} tóm tắt kết quả đã đạt được và định hướng hoàn thiện.
+\item \textbf{Tài liệu tham khảo} và \textbf{Phụ lục}.
+\end{itemize}

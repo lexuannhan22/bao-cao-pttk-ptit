@@ -1,0 +1,130 @@
+% !TeX program = xelatex
+% Mẫu tối giản: chỉ trang bìa và mục lục.
+\documentclass[12pt,a4paper]{report}
+
+\usepackage[a4paper,left=3cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{fontspec}
+\setmainfont{Times New Roman}
+\setsansfont{Times New Roman}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{indentfirst}
+\usepackage{eso-pic}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{url}
+\usepackage{hyperref}
+
+% Thay các thông tin này trước khi biên dịch.
+\newcommand{\UniversityName}{HỌC VIỆN CÔNG NGHỆ BƯU CHÍNH VIỄN THÔNG}
+\newcommand{\FacultyName}{KHOA CÔNG NGHỆ THÔNG TIN 1}
+\newcommand{\DepartmentName}{BỘ MÔN TIN HỌC CƠ SỞ}
+\newcommand{\ReportTitle}{HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ PTIT}
+\newcommand{\AdvisorName}{ĐỖ DUY HIỆP}
+\newcommand{\StudentName}{}
+\newcommand{\StudentID}{}
+\newcommand{\ClassName}{}
+\newcommand{\GroupNumber}{01}
+\newcommand{\ReportPlace}{Hà Nội}
+\newcommand{\ReportMonth}{10}
+\newcommand{\ReportYear}{2026}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  pdftitle={\ReportTitle},
+  pdfauthor={\StudentName}
+}
+\renewcommand{\contentsname}{MỤC LỤC}
+\renewcommand{\chaptername}{CHƯƠNG}
+\renewcommand{\cftchappresnum}{Chương~}
+\renewcommand{\cftchapaftersnum}{\quad}
+\setlength{\cftchapnumwidth}{2.25cm}
+\titleformat{\chapter}[block]
+  {\normalfont\bfseries\centering\Large}
+  {\chaptername\ \thechapter.}
+  {0.6em}
+  {\Large\MakeUppercase}
+\titlespacing*{\chapter}{0pt}{0pt}{1.2cm}
+\titleformat{\section}{\normalfont\bfseries\large}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\bfseries\normalsize}{\thesubsection.}{0.6em}{}
+\titleformat{\subsubsection}{\normalfont\bfseries\normalsize}{\thesubsubsection.}{0.6em}{}
+\titleformat{\paragraph}[hang]{\normalfont\bfseries\normalsize}{}{0pt}{}
+\titlespacing*{\paragraph}{0pt}{0.8em}{0.4em}
+\setstretch{1.15}
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+\captionsetup{font=small,labelfont=bf,skip=6pt}
+\captionsetup[table]{position=top}
+\captionsetup[figure]{position=bottom}
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt}
+\setlist[enumerate]{topsep=4pt,itemsep=2pt,parsep=0pt}
+
+\begin{document}
+
+% Trang bìa được dựng theo mẫu tham khảo trong assets/image.png.
+\begin{titlepage}
+\thispagestyle{empty}
+\AddToShipoutPictureBG*{%
+  \AtPageLowerLeft{%
+    \setlength{\unitlength}{1mm}%
+    \put(12,12){\framebox(186,273){}}%
+    \put(13,13){\framebox(184,271){}}%
+  }%
+}
+\begin{center}
+\vspace*{-0.8cm}
+{\large\parbox{0.9\textwidth}{\centering \UniversityName}\par}
+\vspace{0.1cm}
+{\bfseries\large \FacultyName\par}
+\vspace{0.05cm}
+\rule[0.5ex]{2.5cm}{0.3pt}\,{\small o0o}\,\rule[0.5ex]{2.5cm}{0.3pt}
+
+\vspace{0.7cm}
+\IfFileExists{assets/ptit_logo.png}{%
+  \includegraphics[width=3.1cm]{assets/ptit_logo.png}%
+}{\fbox{\parbox[c][3.1cm][c]{3.1cm}{\centering Logo PTIT}}}
+
+\vspace{2.5cm}
+{\bfseries\Large\parbox{0.88\textwidth}{\centering \ReportTitle}\par}
+
+\vspace{1.8cm}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{>{\bfseries}p{5.0cm}p{0.35cm}p{6.3cm}}
+Giảng viên hướng dẫn & : & \AdvisorName \\
+Sinh viên thực hiện & : & \StudentName \\
+Mã sinh viên & : & \StudentID \\
+Lớp & : & \ClassName \\
+Nhóm & : & \GroupNumber \\
+\end{tabular}
+
+\vfill
+{\bfseries \ReportPlace{}, \ReportMonth/\ReportYear\par}
+\vspace*{0.15cm}
+\end{center}
+\end{titlepage}
+
+% Mục lục trống: chưa có bất kỳ nội dung/chương nào.
+\clearpage
+\setcounter{page}{2}
+\pagestyle{plain}
+\phantomsection
+\addcontentsline{toc}{chapter}{\contentsname}
+\tableofcontents
+
+% Các tệp dưới đây chỉ chứa tiêu đề để tạo sẵn cấu trúc mục lục.
+\input{frontmatter/introduction.tex}
+\input{chapters/chapter1.tex}
+\input{chapters/chapter2.tex}
+\input{chapters/conclusion.tex}
+\input{chapters/references.tex}
+\input{appendices/appendix.tex}
+\input{appendices/work_assignment.tex}
+
+\end{document}
