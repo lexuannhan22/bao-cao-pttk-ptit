@@ -2,6 +2,19 @@
 
 **LỜI MỞ ĐẦU**
 
+Trong xu thế chuyển đổi số mạnh mẽ hiện nay, việc ứng dụng công nghệ thông tin vào công tác quản trị và hỗ trợ sinh viên tại các cơ sở giáo dục đại học đóng vai trò then chốt nhằm nâng cao hiệu quả vận hành và chất lượng dịch vụ. Tại Học viện Công nghệ Bưu chính Viễn thông, ký túc xá là đơn vị hỗ trợ thiết yếu, gắn liền trực tiếp với đời sống sinh hoạt của đông đảo sinh viên. Tuy nhiên, công tác quản lý lưu trú trên thực tế bao gồm nhiều nghiệp vụ phức tạp, liên kết chặt chẽ theo một vòng đời khép kín: từ quản lý phòng và giường, tiếp nhận đăng ký giữ chỗ, thiết lập hợp đồng, phát hành và thanh toán phí nội trú, cho đến hoàn tất thủ tục trả phòng. Việc quản lý bằng sổ sách truyền thống hay tệp bảng tính rời rạc dễ dẫn đến sai lệch trạng thái chỗ ở, trùng lặp hợp đồng và khó đối soát dữ liệu. Xuất phát từ yêu cầu thực tiễn đó, nhóm sinh viên lựa chọn đề tài **“Hệ thống quản lý ký túc xá PTIT”** cho bài tập lớn học phần Phân tích và thiết kế hệ thống thông tin.
+
+Mục tiêu chính của đề tài là chuẩn hóa và mô hình hóa toàn diện quy trình quản lý vòng đời chỗ ở của sinh viên. Vận dụng phương pháp phân tích và thiết kế hướng đối tượng (OOAD) cùng ngôn ngữ mô hình hóa hợp nhất (UML), báo cáo tập trung xác định các tác nhân, phân tích yêu cầu chức năng, hệ thống hóa 12 quy tắc ràng buộc nghiệp vụ (Business Rules), xây dựng ma trận phân quyền, đặc tả chi tiết Use Case và thiết kế các biểu đồ hoạt động xuyên suốt. Đồng thời, nhóm đề xuất định hướng kiến trúc công nghệ hiện đại kết hợp ReactJS ở phía giao diện người dùng, Java xử lý dịch vụ backend, hệ quản trị cơ sở dữ liệu quan hệ PostgreSQL đảm bảo tính toàn vẹn và Redis hỗ trợ tra cứu nhanh cũng như kiểm soát giữ chỗ tạm thời.
+
+Báo cáo bài tập lớn được kết cấu thành hai chương nội dung chính cùng các phần bổ trợ:
+* **Chương 1: Giới thiệu đề tài và lựa chọn công nghệ** — Trình bày lý do chọn đề tài, mục tiêu, kết quả dự kiến, phạm vi hệ thống, quy trình nghiệp vụ tổng quát và các công nghệ đề xuất.
+* **Chương 2: Phân tích hệ thống** — Khảo sát hiện trạng, hệ thống hóa các quy tắc nghiệp vụ then chốt (BR01–BR12), xây dựng biểu đồ Use Case tổng quát, ma trận tác nhân – Use Case và đặc tả chi tiết các Use Case chính.
+* **Kết luận và hướng phát triển** — Tổng kết kết quả đạt được, chỉ ra những hạn chế và đề xuất các hướng mở rộng hệ thống trong tương lai.
+
+Nhóm chúng em xin bày tỏ lòng biết ơn chân thành tới Ban giám hiệu Học viện Công nghệ Bưu chính Viễn thông, các thầy cô giáo Khoa Công nghệ Thông tin 1 và Bộ môn Tin học cơ sở đã tạo điều kiện học tập thuận lợi. Đặc biệt, nhóm xin gửi lời cảm ơn sâu sắc nhất tới thầy **ThS. Nguyễn Đình Hiến**, người đã tận tâm giảng dạy, định hướng đề tài và đóng góp những ý kiến quý báu giúp nhóm hoàn thành bài báo cáo này.
+
+Do giới hạn về thời gian và kiến thức thực tế, bài báo cáo khó tránh khỏi những thiếu sót. Nhóm kính mong nhận được những góp ý, chỉ bảo của thầy cô và các bạn để đề tài ngày càng hoàn thiện hơn.
+
 **MỤC LỤC**
 
 # **CHƯƠNG I: GIỚI THIỆU ĐỀ TÀI VÀ LỰA CHỌN CÔNG NGHỆ**
@@ -561,18 +574,18 @@ Bảng phân quyền theo chức năng:
 
 ## **2.3.3 Ma trận tác nhân – Use Case**
 
-| Use Case | Sinh viên | Cán bộ |  |
-| :---- | :---- | :---- | :---- |
-| UC01 Tạo phòng và giường |   | X |  |
-| UC02 Tìm phòng còn chỗ phù hợp | X |   |  |
-| UC03 Gửi yêu cầu đặt phòng | X |   |  |
-| UC04 Giữ phòng và giường cho sinh viên |   | X |  |
-| UC05 Lập hợp đồng thuê phòng |   | X |  |
-| UC06 Xác nhận bàn giao phòng |   | X |  |
-| UC07 Phát hành khoản phí nội trú theo kỳ |   | X |  |
-| UC08 Thanh toán khoản phí nội trú | X |   |  |
-| UC09 Gửi yêu cầu trả phòng | X |   |  |
-| UC10 Xác nhận hoàn tất trả phòng |   | X |  |
+| Use Case | Sinh viên | Cán bộ |
+| :---- | :---: | :---: |
+| UC01 Tạo phòng và giường |   | X |
+| UC02 Tìm phòng còn chỗ phù hợp | X |   |
+| UC03 Gửi yêu cầu đặt phòng | X |   |
+| UC04 Giữ phòng và giường cho sinh viên |   | X |
+| UC05 Lập hợp đồng thuê phòng |   | X |
+| UC06 Xác nhận bàn giao phòng |   | X |
+| UC07 Phát hành khoản phí nội trú theo kỳ |   | X |
+| UC08 Thanh toán khoản phí nội trú | X |   |
+| UC09 Gửi yêu cầu trả phòng | X |   |
+| UC10 Xác nhận hoàn tất trả phòng |   | X |
 
 ## **2.3.4 Biểu đồ Use Case tổng quát**
 
