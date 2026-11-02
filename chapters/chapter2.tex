@@ -86,7 +86,7 @@ Sau khi trả phòng được xác nhận, hệ thống đồng thời cập nh�
 Như vậy, luồng nghiệp vụ tổng quát của hệ thống có thể biểu diễn như sau:
 
 \begin{itemize}[leftmargin=1.4em]
-\item Tạo phòng và giường → Tìm phòng → Gửi yêu cầu đặt phòng → Giữ giường → Lập hợp đồng → Bàn giao phòng → Phát hành khoản phí → Thanh toán → Gửi yêu cầu trả phòng → Xác nhận trả phòng.**
+\item Tạo phòng và giường → Tìm phòng → Gửi yêu cầu đặt phòng → Giữ giường → Lập hợp đồng → Bàn giao phòng → Phát hành khoản phí → Thanh toán → Gửi yêu cầu trả phòng → Xác nhận trả phòng.
 \end{itemize}
 
 Các bước trong quy trình không chỉ trao đổi dữ liệu mà còn làm thay đổi trạng thái của các đối tượng nghiệp vụ. Hệ thống chỉ cho phép chuyển sang bước tiếp theo khi các điều kiện của bước trước đã được đáp ứng, qua đó bảo đảm tính nhất quán của dữ liệu trong toàn bộ vòng đời lưu trú.
@@ -95,15 +95,18 @@ Các bước trong quy trình không chỉ trao đổi dữ liệu mà còn làm
 
 Từ quy trình nghiệp vụ và phạm vi chức năng của hệ thống, các đối tượng dữ liệu chính cần được quản lý bao gồm:
 
-\begin{table}[H]
-\centering
-\small
-\caption{Bảng dữ liệu đặc tả}
-\label{tab:ch2-1}
-\begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{0.28\textwidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{0.28\textwidth}|}
+\begin{xltabular}{\textwidth}{|>{\small\raggedright\arraybackslash}p{0.12\textwidth}|>{\small\raggedright\arraybackslash}p{0.30\textwidth}|>{\small\raggedright\arraybackslash}X|}
+\caption{Các đối tượng dữ liệu nghiệp vụ chính}
+\label{tab:ch2-1} \\
 \hline
 \textbf{STT} & \textbf{Đối tượng dữ liệu} & \textbf{Mô tả} \\
 \hline
+\endfirsthead
+\multicolumn{3}{c}{\tablename~\thetable\ (tiếp theo)} \\
+\hline
+\textbf{STT} & \textbf{Đối tượng dữ liệu} & \textbf{Mô tả} \\
+\hline
+\endhead
 1 & \textbf{Sinh viên (Student)} & Lưu thông tin sinh viên sử dụng ký túc xá; là đối tượng gửi yêu cầu đặt phòng, ký hợp đồng, phát sinh khoản phí, thanh toán và gửi yêu cầu trả phòng. \\
 \hline
 2 & \textbf{Cán bộ quản lý (Staff)} & Lưu thông tin cán bộ có quyền quản lý phòng, giường, xử lý yêu cầu đặt phòng, lập hợp đồng, bàn giao, phát hành phí và xác nhận trả phòng. \\
@@ -128,8 +131,7 @@ Từ quy trình nghiệp vụ và phạm vi chức năng của hệ thống, cá
 \hline
 12 & \textbf{Yêu cầu trả phòng (Checkout Request)} & Ghi nhận yêu cầu kết thúc lưu trú của sinh viên, thời gian dự kiến trả phòng và trạng thái xử lý. \\
 \hline
-\end{tabularx}
-\end{table}
+\end{xltabular}
 
 Các đối tượng trên có mối quan hệ chặt chẽ với nhau. Một tòa nhà có nhiều phòng và một phòng có nhiều giường. Sinh viên có thể phát sinh yêu cầu đặt phòng; yêu cầu được chấp thuận dẫn đến việc giữ một giường cụ thể. Dữ liệu giữ chỗ là cơ sở để lập hợp đồng, còn hợp đồng đang có hiệu lực là cơ sở để phát sinh khoản phí và xác định quyền sử dụng giường của sinh viên. Khi sinh viên hoàn tất trả phòng, hợp đồng kết thúc và giường được giải phóng.
 
@@ -138,18 +140,18 @@ Ngoài các đối tượng nghiệp vụ chính, hệ thống còn sử dụng 
 \subsection{Các quy tắc nghiệp vụ chung}
 
 \begin{itemize}[leftmargin=1.4em]
-\item BR01:** Mỗi tài khoản chỉ thuộc một vai trò: sinh viên hoặc cán bộ.
-\item BR02:** Sinh viên chỉ được xem và thao tác với dữ liệu của bản thân.
-\item BR03:** Một giường tại một thời điểm chỉ có một trạng thái: trống, đang giữ hoặc đang thuê.
-\item BR04:** Một giường không được giữ hoặc phân cho nhiều sinh viên cùng lúc.
-\item BR05:** Chỉ lập hợp đồng khi sinh viên đã có chỗ được giữ hợp lệ.
-\item BR06:** Một sinh viên không được có nhiều hợp đồng còn hiệu lực cùng lúc.
-\item BR07:** Hợp đồng chỉ có hiệu lực sau khi bàn giao phòng thành công.
-\item BR08:** Chỉ phát hành khoản phí cho hợp đồng đang có hiệu lực.
-\item BR09:** Sinh viên chỉ được thanh toán khoản phí của mình và chưa được thanh toán.
-\item BR10:** Chỉ được gửi yêu cầu trả phòng khi hợp đồng đang có hiệu lực.
-\item BR11:** Khi hoàn tất trả phòng, hợp đồng phải kết thúc và giường được giải phóng đồng thời.
-\item BR12:** Trước khi giữ giường hoặc lập hợp đồng, hệ thống phải kiểm tra lại trạng thái dữ liệu tại thời điểm xử lý.
+\item BR01: Mỗi tài khoản chỉ thuộc một vai trò: sinh viên hoặc cán bộ.
+\item BR02: Sinh viên chỉ được xem và thao tác với dữ liệu của bản thân.
+\item BR03: Một giường tại một thời điểm chỉ có một trạng thái: trống, đang giữ hoặc đang thuê.
+\item BR04: Một giường không được giữ hoặc phân cho nhiều sinh viên cùng lúc.
+\item BR05: Chỉ lập hợp đồng khi sinh viên đã có chỗ được giữ hợp lệ.
+\item BR06: Một sinh viên không được có nhiều hợp đồng còn hiệu lực cùng lúc.
+\item BR07: Hợp đồng chỉ có hiệu lực sau khi bàn giao phòng thành công.
+\item BR08: Chỉ phát hành khoản phí cho hợp đồng đang có hiệu lực.
+\item BR09: Sinh viên chỉ được thanh toán khoản phí của mình và chưa được thanh toán.
+\item BR10: Chỉ được gửi yêu cầu trả phòng khi hợp đồng đang có hiệu lực.
+\item BR11: Khi hoàn tất trả phòng, hợp đồng phải kết thúc và giường được giải phóng đồng thời.
+\item BR12: Trước khi giữ giường hoặc lập hợp đồng, hệ thống phải kiểm tra lại trạng thái dữ liệu tại thời điểm xử lý.
 \end{itemize}
 
 \section{Phân tích yêu cầu hệ thống}
@@ -340,7 +342,7 @@ Bảng phân quyền theo chức năng:
 \begin{table}[H]
 \centering
 \small
-\caption{Bảng dữ liệu đặc tả}
+\caption{Ma trận phân quyền theo chức năng}
 \label{tab:ch2-2}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{0.28\textwidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{0.28\textwidth}|}
 \hline
@@ -380,23 +382,24 @@ Trả phòng & Gửi yêu cầu & Kiểm tra, xác nhận hoàn tất \\
 \begin{itemize}[leftmargin=1.4em]
 \item Một giường chỉ ở một trạng thái tại một thời điểm (trống / đang giữ / đang thuê).
 \item Phòng "còn chỗ" khi có ít nhất một giường trống.
-\item Đặt phòng:**
+\item Đặt phòng:
 \item Chỉ giữ chỗ cho yêu cầu đang chờ xử lý.
 \item Một giường không được giữ cho nhiều sinh viên cùng lúc.
-\item Hợp đồng, bàn giao:**
+\item Hợp đồng, bàn giao:
 \item Chỉ lập hợp đồng khi sinh viên đã có chỗ được giữ hợp lệ.
 \item Một sinh viên không có hai hợp đồng còn hiệu lực cùng lúc.
 \item Hợp đồng chỉ có hiệu lực sau khi bàn giao thành công; giường chỉ "đang thuê" từ lúc đó.
-\item Khoản phí:**
+\item Khoản phí:
 \item Chỉ phát hành phí cho hợp đồng đang hiệu lực.
 \item Sinh viên chỉ thanh toán khoản phí của mình, đang ở trạng thái chưa thanh toán.
-\item Trả phòng:**
+\item Trả phòng:
 \item Chỉ gửi yêu cầu trả phòng cho hợp đồng đang hiệu lực.
 \item Khi hoàn tất trả phòng: hợp đồng kết thúc và giường được giải phóng đồng thời, trong cùng một giao dịch — không để lại trạng thái nửa vời.
-\item Xử lý đồng thời:**
+\item Xử lý đồng thời:
 \item Trước khi giữ chỗ/lập hợp đồng, hệ thống phải kiểm tra lại trạng thái giường tại thời điểm xử lý (không dùng dữ liệu cũ).
 \item Redis chỉ hỗ trợ tốc độ, không thay thế PostgreSQL; nếu Redis lỗi, hệ thống vẫn phải đảm bảo đúng theo dữ liệu chính.
 \end{itemize}
+
 
 \section{Mô hình Use Case tổng quát}
 
@@ -413,7 +416,7 @@ Trả phòng & Gửi yêu cầu & Kiểm tra, xác nhận hoàn tất \\
 \begin{table}[H]
 \centering
 \small
-\caption{Bảng dữ liệu đặc tả}
+\caption{Danh sách Use Case của hệ thống}
 \label{tab:ch2-3}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{0.18\textwidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{0.22\textwidth}|>{\raggedright\arraybackslash}p{0.18\textwidth}|}
 \hline
@@ -447,7 +450,7 @@ UC10 & Xác nhận hoàn tất trả phòng & Cán bộ & Dũng \\
 \begin{table}[H]
 \centering
 \small
-\caption{Bảng dữ liệu đặc tả}
+\caption{Ma trận tác nhân -- Use Case}
 \label{tab:ch2-4}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{0.18\textwidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{0.22\textwidth}|>{\raggedright\arraybackslash}p{0.18\textwidth}|}
 \hline
@@ -477,11 +480,9 @@ UC10 Xác nhận hoàn tất trả phòng &  & X &  \\
 \end{table}
 
 \subsection{Biểu đồ Use Case tổng quát}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsection{Biểu đồ Use Case phân rã theo chức năng}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \section{Phân tích nhóm chức năng xem phòng}
@@ -497,53 +498,41 @@ UC01 cho phép cán bộ quản lý ký túc xá tạo mới một phòng thuộ
 Cán bộ nhập thông tin phòng gồm mã phòng, tên phòng, loại phòng, giới tính sử dụng, sức chứa, mức phí nội trú hằng tháng và danh sách mã giường. Hệ thống kiểm tra tính hợp lệ của dữ liệu trước khi lưu phòng cùng toàn bộ danh sách giường.
 
 \subsubsection{Tác nhân, tiền điều kiện và hậu điều kiện}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Luồng sự kiện chính}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Luồng thay thế và ngoại lệ}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Quy tắc nghiệp vụ và dữ liệu liên quan}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Sơ đồ lớp UC01}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsection{UC02 Sinh viên tìm phòng còn chỗ phù hợp}
 
 \subsubsection{Mục đích và mô tả chức năng}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Tác nhân, tiền điều kiện và hậu điều kiện}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Luồng sự kiện chính}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Luồng thay thế và ngoại lệ}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Quy tắc nghiệp vụ và dữ liệu liên quan}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Sơ đồ lớp UC02}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsection{Quan hệ nghiệp vụ giữa UC01 và UC02}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \section{Phân tích nhóm chức năng đặt phòng}
@@ -567,7 +556,7 @@ Việc gửi yêu cầu chưa giữ giường và chưa làm phát sinh hợp đ
 \begin{table}[H]
 \centering
 \small
-\caption{Bảng dữ liệu đặc tả}
+\caption{Tác nhân, tiền điều kiện và hậu điều kiện của UC03}
 \label{tab:ch2-5}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{0.32\textwidth}|>{\raggedright\arraybackslash}X|}
 \hline
@@ -614,14 +603,14 @@ Việc gửi yêu cầu chưa giữ giường và chưa làm phát sinh hợp đ
 \paragraph{Luồng thay thế}
 
 \begin{itemize}[leftmargin=1.4em]
-\item 3a. Sinh viên không tiếp tục gửi yêu cầu:** Sinh viên hủy thao tác. Hệ thống quay lại kết quả tìm phòng và không tạo yêu cầu.
-\item 6a. Phòng không còn giường trống:** Hệ thống từ chối yêu cầu, thông báo phòng đã hết chỗ và gợi ý sinh viên tìm phòng khác.
-\item 6b. Sinh viên đã có hợp đồng đang hiệu lực:** Hệ thống từ chối và thông báo sinh viên đang có hợp đồng lưu trú còn hiệu lực.
-\item 6c. Sinh viên đã có yêu cầu đang chờ xử lý:** Hệ thống từ chối tạo yêu cầu mới và hiển thị yêu cầu hiện có. Sinh viên có thể chờ kết quả xử lý.
-\item Luồng ngoại lệ**
-\item 5a. Dữ liệu nhập thiếu hoặc không hợp lệ** (ví dụ ngày bắt đầu ở trong quá khứ): Hệ thống hiển thị lỗi tại trường tương ứng và yêu cầu sinh viên chỉnh sửa.
-\item 1a. Phiên đăng nhập hết hạn hoặc không có quyền:** Hệ thống yêu cầu đăng nhập lại và không xử lý yêu cầu.
-\item 8a. Lỗi khi lưu dữ liệu:** Hệ thống không ghi nhận yêu cầu, giữ nguyên dữ liệu trước thao tác và thông báo lỗi cho sinh viên.
+\item 3a. Sinh viên không tiếp tục gửi yêu cầu: Sinh viên hủy thao tác. Hệ thống quay lại kết quả tìm phòng và không tạo yêu cầu.
+\item 6a. Phòng không còn giường trống: Hệ thống từ chối yêu cầu, thông báo phòng đã hết chỗ và gợi ý sinh viên tìm phòng khác.
+\item 6b. Sinh viên đã có hợp đồng đang hiệu lực: Hệ thống từ chối và thông báo sinh viên đang có hợp đồng lưu trú còn hiệu lực.
+\item 6c. Sinh viên đã có yêu cầu đang chờ xử lý: Hệ thống từ chối tạo yêu cầu mới và hiển thị yêu cầu hiện có. Sinh viên có thể chờ kết quả xử lý.
+\item Luồng ngoại lệ
+\item 5a. Dữ liệu nhập thiếu hoặc không hợp lệ (ví dụ ngày bắt đầu ở trong quá khứ): Hệ thống hiển thị lỗi tại trường tương ứng và yêu cầu sinh viên chỉnh sửa.
+\item 1a. Phiên đăng nhập hết hạn hoặc không có quyền: Hệ thống yêu cầu đăng nhập lại và không xử lý yêu cầu.
+\item 8a. Lỗi khi lưu dữ liệu: Hệ thống không ghi nhận yêu cầu, giữ nguyên dữ liệu trước thao tác và thông báo lỗi cho sinh viên.
 \end{itemize}
 
 \subsubsection{Quy tắc nghiệp vụ và dữ liệu liên quan}
@@ -629,20 +618,20 @@ Việc gửi yêu cầu chưa giữ giường và chưa làm phát sinh hợp đ
 \paragraph{Quy tắc nghiệp vụ}
 
 \begin{itemize}[leftmargin=1.4em]
-\item BR01, BR02:** Chỉ tài khoản có vai trò sinh viên mới gửi được yêu cầu, và chỉ cho chính mình.
-\item BR-UC03-01:** Chỉ gửi yêu cầu cho phòng có ít nhất một giường ở trạng thái trống.
-\item BR-UC03-02:** Sinh viên có hợp đồng đang hiệu lực (BR06) không được gửi yêu cầu đặt phòng mới.
-\item BR-UC03-03:** Mỗi sinh viên chỉ có một yêu cầu ở trạng thái "Chờ xử lý" tại một thời điểm.
-\item BR-UC03-04:** Yêu cầu mới có trạng thái ban đầu "Chờ xử lý"; việc gửi yêu cầu không làm thay đổi trạng thái giường.
-\item BR-UC03-05:** Ngày dự kiến bắt đầu ở không được sớm hơn ngày gửi yêu cầu.
-\item BR-UC03-06:** Hệ thống kiểm tra lại trạng thái phòng tại thời điểm lưu (BR12). Kết quả tìm phòng lưu tạm trong Redis chỉ mang tính tham khảo.
-\item Dữ liệu liên quan**
+\item BR01, BR02: Chỉ tài khoản có vai trò sinh viên mới gửi được yêu cầu, và chỉ cho chính mình.
+\item BR-UC03-01: Chỉ gửi yêu cầu cho phòng có ít nhất một giường ở trạng thái trống.
+\item BR-UC03-02: Sinh viên có hợp đồng đang hiệu lực (BR06) không được gửi yêu cầu đặt phòng mới.
+\item BR-UC03-03: Mỗi sinh viên chỉ có một yêu cầu ở trạng thái "Chờ xử lý" tại một thời điểm.
+\item BR-UC03-04: Yêu cầu mới có trạng thái ban đầu "Chờ xử lý"; việc gửi yêu cầu không làm thay đổi trạng thái giường.
+\item BR-UC03-05: Ngày dự kiến bắt đầu ở không được sớm hơn ngày gửi yêu cầu.
+\item BR-UC03-06: Hệ thống kiểm tra lại trạng thái phòng tại thời điểm lưu (BR12). Kết quả tìm phòng lưu tạm trong Redis chỉ mang tính tham khảo.
+\item Dữ liệu liên quan
 \end{itemize}
 
 \begin{table}[H]
 \centering
 \small
-\caption{Bảng dữ liệu đặc tả}
+\caption{Các đối tượng dữ liệu liên quan đến UC03}
 \label{tab:ch2-6}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{0.28\textwidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{0.28\textwidth}|}
 \hline
@@ -689,7 +678,7 @@ Cán bộ xem danh sách yêu cầu đang chờ xử lý, chọn một yêu cầ
 \begin{table}[H]
 \centering
 \small
-\caption{Bảng dữ liệu đặc tả}
+\caption{Tác nhân, tiền điều kiện và hậu điều kiện của UC04}
 \label{tab:ch2-7}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{0.32\textwidth}|>{\raggedright\arraybackslash}X|}
 \hline
@@ -744,16 +733,16 @@ Cán bộ xem danh sách yêu cầu đang chờ xử lý, chọn một yêu cầ
 \paragraph{Luồng thay thế}
 
 \begin{itemize}[leftmargin=1.4em]
-\item 3a. Cán bộ từ chối yêu cầu:** Cán bộ chọn "Từ chối" và nhập lý do. Hệ thống chuyển yêu cầu sang "Bị từ chối", lưu lý do và không thay đổi dữ liệu giường. Sinh viên xem được kết quả và lý do.
-\item 3b. Cán bộ không tiếp tục xử lý:** Cán bộ hủy thao tác. Hệ thống quay lại danh sách yêu cầu chờ xử lý và không thay đổi dữ liệu.
-\item 4a. Phòng đề nghị không còn giường trống:** Hệ thống thông báo cho cán bộ. Cán bộ có thể chọn phòng khác còn chỗ phù hợp hoặc từ chối yêu cầu.
-\item 7a. Yêu cầu không còn ở trạng thái chờ xử lý:** Hệ thống dừng thao tác, thông báo yêu cầu đã được xử lý và tải lại danh sách.
-\item 7b. Giường đã bị giữ hoặc đang thuê:** Nếu giường đã có khóa giữ hợp lệ hoặc không còn trống (do cán bộ khác vừa xử lý), hệ thống từ chối và yêu cầu cán bộ chọn giường khác.
-\item 7c. Sinh viên đã có hợp đồng đang hiệu lực:** Hệ thống không cho giữ chỗ và gợi ý cán bộ từ chối yêu cầu.
-\item Luồng ngoại lệ**
-\item 8a. Redis không khả dụng:** Hệ thống không xác nhận giữ chỗ chỉ dựa trên dữ liệu tạm. Hệ thống vẫn kiểm tra và khóa dữ liệu ngay trong giao dịch PostgreSQL rồi mới xác nhận (BR12).
-\item 9a. Lỗi khi ghi dữ liệu:** Hệ thống hủy toàn bộ giao dịch, không tạo bản ghi giữ chỗ, giữ nguyên trạng thái giường và yêu cầu, giải phóng khóa tạm và thông báo lỗi cho cán bộ.
-\item 9b. Xung đột đồng thời khi lưu:** Nếu giao dịch phát hiện giường vừa bị thay đổi bởi yêu cầu khác, hệ thống hủy giao dịch và thông báo cán bộ chọn lại giường.
+\item 3a. Cán bộ từ chối yêu cầu: Cán bộ chọn "Từ chối" và nhập lý do. Hệ thống chuyển yêu cầu sang "Bị từ chối", lưu lý do và không thay đổi dữ liệu giường. Sinh viên xem được kết quả và lý do.
+\item 3b. Cán bộ không tiếp tục xử lý: Cán bộ hủy thao tác. Hệ thống quay lại danh sách yêu cầu chờ xử lý và không thay đổi dữ liệu.
+\item 4a. Phòng đề nghị không còn giường trống: Hệ thống thông báo cho cán bộ. Cán bộ có thể chọn phòng khác còn chỗ phù hợp hoặc từ chối yêu cầu.
+\item 7a. Yêu cầu không còn ở trạng thái chờ xử lý: Hệ thống dừng thao tác, thông báo yêu cầu đã được xử lý và tải lại danh sách.
+\item 7b. Giường đã bị giữ hoặc đang thuê: Nếu giường đã có khóa giữ hợp lệ hoặc không còn trống (do cán bộ khác vừa xử lý), hệ thống từ chối và yêu cầu cán bộ chọn giường khác.
+\item 7c. Sinh viên đã có hợp đồng đang hiệu lực: Hệ thống không cho giữ chỗ và gợi ý cán bộ từ chối yêu cầu.
+\item Luồng ngoại lệ
+\item 8a. Redis không khả dụng: Hệ thống không xác nhận giữ chỗ chỉ dựa trên dữ liệu tạm. Hệ thống vẫn kiểm tra và khóa dữ liệu ngay trong giao dịch PostgreSQL rồi mới xác nhận (BR12).
+\item 9a. Lỗi khi ghi dữ liệu: Hệ thống hủy toàn bộ giao dịch, không tạo bản ghi giữ chỗ, giữ nguyên trạng thái giường và yêu cầu, giải phóng khóa tạm và thông báo lỗi cho cán bộ.
+\item 9b. Xung đột đồng thời khi lưu: Nếu giao dịch phát hiện giường vừa bị thay đổi bởi yêu cầu khác, hệ thống hủy giao dịch và thông báo cán bộ chọn lại giường.
 \end{itemize}
 
 \subsubsection{Quy tắc nghiệp vụ và dữ liệu liên quan}
@@ -761,23 +750,23 @@ Cán bộ xem danh sách yêu cầu đang chờ xử lý, chọn một yêu cầ
 \paragraph{Quy tắc nghiệp vụ}
 
 \begin{itemize}[leftmargin=1.4em]
-\item BR03:** Giường chỉ ở một trạng thái tại một thời điểm.
-\item BR04:** Một giường không được giữ hoặc phân cho nhiều sinh viên cùng lúc.
-\item BR12:** Trước khi giữ giường, hệ thống phải kiểm tra lại trạng thái tại thời điểm xử lý, không dùng dữ liệu cũ.
-\item BR-UC04-01:** Chỉ giữ chỗ cho yêu cầu ở trạng thái "Chờ xử lý".
-\item BR-UC04-02:** Chỉ giữ giường đang ở trạng thái trống; sau khi giữ, giường chuyển sang "đang giữ".
-\item BR-UC04-03:** Một yêu cầu chỉ được giữ tối đa một giường; một sinh viên chỉ có một giữ chỗ hợp lệ tại một thời điểm.
-\item BR-UC04-04:** Việc tạo giữ chỗ, cập nhật giường và cập nhật yêu cầu được thực hiện trong cùng một giao dịch: hoặc hoàn tất toàn bộ, hoặc không thay đổi gì.
-\item BR-UC04-05:** Giữ chỗ có thời hạn. Nếu quá thời hạn mà chưa lập hợp đồng (UC05), giữ chỗ hết hiệu lực và giường quay về trạng thái trống.
-\item BR-UC04-06:** Redis chỉ hỗ trợ khóa giữ tạm và tăng tốc; nếu Redis lỗi, tính đúng đắn vẫn dựa vào PostgreSQL.
-\item BR-UC04-07:** Khi từ chối yêu cầu, cán bộ phải nhập lý do.
-\item Dữ liệu liên quan**
+\item BR03: Giường chỉ ở một trạng thái tại một thời điểm.
+\item BR04: Một giường không được giữ hoặc phân cho nhiều sinh viên cùng lúc.
+\item BR12: Trước khi giữ giường, hệ thống phải kiểm tra lại trạng thái tại thời điểm xử lý, không dùng dữ liệu cũ.
+\item BR-UC04-01: Chỉ giữ chỗ cho yêu cầu ở trạng thái "Chờ xử lý".
+\item BR-UC04-02: Chỉ giữ giường đang ở trạng thái trống; sau khi giữ, giường chuyển sang "đang giữ".
+\item BR-UC04-03: Một yêu cầu chỉ được giữ tối đa một giường; một sinh viên chỉ có một giữ chỗ hợp lệ tại một thời điểm.
+\item BR-UC04-04: Việc tạo giữ chỗ, cập nhật giường và cập nhật yêu cầu được thực hiện trong cùng một giao dịch: hoặc hoàn tất toàn bộ, hoặc không thay đổi gì.
+\item BR-UC04-05: Giữ chỗ có thời hạn. Nếu quá thời hạn mà chưa lập hợp đồng (UC05), giữ chỗ hết hiệu lực và giường quay về trạng thái trống.
+\item BR-UC04-06: Redis chỉ hỗ trợ khóa giữ tạm và tăng tốc; nếu Redis lỗi, tính đúng đắn vẫn dựa vào PostgreSQL.
+\item BR-UC04-07: Khi từ chối yêu cầu, cán bộ phải nhập lý do.
+\item Dữ liệu liên quan
 \end{itemize}
 
 \begin{table}[H]
 \centering
 \small
-\caption{Bảng dữ liệu đặc tả}
+\caption{Các đối tượng dữ liệu liên quan đến UC04}
 \label{tab:ch2-8}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{0.28\textwidth}|>{\raggedright\arraybackslash}X|>{\raggedright\arraybackslash}p{0.28\textwidth}|}
 \hline
@@ -821,7 +810,7 @@ Việc lập hợp đồng tại UC05 chưa đồng nghĩa sinh viên đã chín
 \begin{table}[H]
 \centering
 \small
-\caption{Bảng dữ liệu đặc tả}
+\caption{Tác nhân, tiền điều kiện và hậu điều kiện của UC05}
 \label{tab:ch2-9}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{0.32\textwidth}|>{\raggedright\arraybackslash}X|}
 \hline
@@ -885,25 +874,25 @@ Việc lập hợp đồng tại UC05 chưa đồng nghĩa sinh viên đã chín
 \paragraph{d.Luồng thay thế}
 
 \begin{itemize}[leftmargin=1.4em]
-\item 3a. Cán bộ không tiếp tục lập hợp đồng:**
+\item 3a. Cán bộ không tiếp tục lập hợp đồng:
 \end{itemize}
 
 Cán bộ hủy thao tác. Hệ thống quay lại danh sách sinh viên/chỗ đã được giữ và không tạo hợp đồng.
 
 \begin{itemize}[leftmargin=1.4em]
-\item 4a. Thông tin giữ chỗ không còn hợp lệ:**
+\item 4a. Thông tin giữ chỗ không còn hợp lệ:
 \end{itemize}
 
 Hệ thống không cho phép tiếp tục lập hợp đồng và yêu cầu cán bộ kiểm tra lại thông tin giữ chỗ.
 
 \begin{itemize}[leftmargin=1.4em]
-\item 5a. Giường không còn ở trạng thái phù hợp:**
+\item 5a. Giường không còn ở trạng thái phù hợp:
 \end{itemize}
 
 Nếu tại thời điểm kiểm tra, giường không còn được giữ hợp lệ cho sinh viên đang được chọn, hệ thống dừng quá trình lập hợp đồng và thông báo cho cán bộ.
 
 \begin{itemize}[leftmargin=1.4em]
-\item 5b. Sinh viên đã có hợp đồng đang có hiệu lực:**
+\item 5b. Sinh viên đã có hợp đồng đang có hiệu lực:
 \end{itemize}
 
 Hệ thống từ chối lập hợp đồng mới và thông báo sinh viên đang có hợp đồng lưu trú còn hiệu lực.
@@ -911,19 +900,19 @@ Hệ thống từ chối lập hợp đồng mới và thông báo sinh viên đ
 \paragraph{e.Luồng ngoại lệ}
 
 \begin{itemize}[leftmargin=1.4em]
-\item 9a. Dữ liệu hợp đồng thiếu hoặc không hợp lệ:**
+\item 9a. Dữ liệu hợp đồng thiếu hoặc không hợp lệ:
 \end{itemize}
 
 Hệ thống hiển thị thông tin lỗi tại trường tương ứng và yêu cầu cán bộ kiểm tra, chỉnh sửa trước khi tiếp tục.
 
 \begin{itemize}[leftmargin=1.4em]
-\item 10a. Có thay đổi trạng thái dữ liệu trong quá trình xử lý:**
+\item 10a. Có thay đổi trạng thái dữ liệu trong quá trình xử lý:
 \end{itemize}
 
 Hệ thống kiểm tra lại trạng thái giường và dữ liệu giữ chỗ trước khi lưu. Nếu điều kiện không còn được đáp ứng, hợp đồng không được tạo.
 
 \begin{itemize}[leftmargin=1.4em]
-\item 11a. Lỗi khi lưu dữ liệu:**
+\item 11a. Lỗi khi lưu dữ liệu:
 \end{itemize}
 
 Hệ thống không ghi nhận hợp đồng mới, giữ nguyên dữ liệu trước khi thực hiện thao tác và thông báo lỗi cho cán bộ.
@@ -931,11 +920,9 @@ Hệ thống không ghi nhận hợp đồng mới, giữ nguyên dữ liệu tr
 Cách xử lý này phù hợp với yêu cầu chung của hệ thống là phải kiểm soát trạng thái để tránh việc một giường bị phân cho nhiều sinh viên
 
 \subsubsection{Quy tắc nghiệp vụ và dữ liệu liên quan}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Sơ đồ lớp UC05}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsection{UC06 Cán bộ xác nhận bàn giao phòng cho sinh viên}
@@ -957,7 +944,7 @@ Khi bàn giao thành công, hệ thống ghi nhận thông tin bàn giao, chuy�
 \begin{table}[H]
 \centering
 \small
-\caption{Bảng dữ liệu đặc tả}
+\caption{Tác nhân, tiền điều kiện và hậu điều kiện của UC06}
 \label{tab:ch2-10}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{0.32\textwidth}|>{\raggedright\arraybackslash}X|}
 \hline
@@ -1061,11 +1048,9 @@ Nếu không thể chuyển hợp đồng sang trạng thái có hiệu lực, t
 Nếu hợp đồng đã được xử lý nhưng không thể cập nhật giường sang trạng thái đang thuê, hệ thống phải hủy toàn bộ thay đổi để không tạo ra trạng thái dữ liệu không nhất quán.
 
 \subsubsection{Quy tắc nghiệp vụ và dữ liệu liên quan}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Sơ đồ lớp UC06}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \section{Phân tích nhóm chức năng đóng phí}
@@ -1126,7 +1111,7 @@ Hệ thống hiển thị thông báo "Phát hành khoản phí nội trú thàn
 \item 3a. Cán bộ hủy thao tác: Cán bộ chọn hủy; hệ thống quay trở lại màn hình quản trị tài chính, không lưu dữ liệu.
 \item 4a. Không tìm thấy hợp đồng đủ điều kiện: Hệ thống thông báo không có hợp đồng đang hiệu lực hoặc các hợp đồng đã được tạo phí cho kỳ này, dừng quá trình phát hành.
 \item 6a. Cán bộ điều chỉnh danh sách: Cán bộ có thể bỏ chọn một số sinh viên có trường hợp đặc biệt (ví dụ miễn giảm) trước khi phát hành hàng loạt.
-\item Luồng ngoại lệ:**
+\item Luồng ngoại lệ:
 \item 2a. Hạn thanh toán không hợp lệ: Nếu cán bộ nhập hạn thanh toán nhỏ hơn hoặc bằng ngày phát hành, hệ thống báo lỗi và yêu cầu chọn lại.
 \item 7a. Lỗi ghi dữ liệu/xung đột giao dịch: Hệ thống rollback toàn bộ giao dịch, không tạo khoản phí dở dang và báo lỗi cho cán bộ.
 \end{itemize}
@@ -1146,7 +1131,6 @@ Quy tắc nghiệp vụ:
 Dữ liệu liên quan:
 
 \subsubsection{Sơ đồ lớp UC07}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsection{UC08 Sinh viên thanh toán khoản phí nội trú}
@@ -1215,11 +1199,9 @@ Luồng ngoại lệ:
 \end{itemize}
 
 \subsubsection{Quy tắc nghiệp vụ và dữ liệu liên quan}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Sơ đồ lớp UC08}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \section{Phân tích nhóm chức năng trả phòng}
@@ -1245,7 +1227,7 @@ Sau khi gửi thành công, sinh viên có thể theo dõi trạng thái yêu c�
 \begin{table}[H]
 \centering
 \small
-\caption{Bảng dữ liệu đặc tả}
+\caption{Tác nhân, tiền điều kiện và hậu điều kiện của UC09}
 \label{tab:ch2-11}
 \begin{tabularx}{\textwidth}{|>{\raggedright\arraybackslash}p{0.32\textwidth}|>{\raggedright\arraybackslash}X|}
 \hline
@@ -1290,48 +1272,39 @@ Luồng sự kiện chính của UC09 được thực hiện như sau:
 \paragraph{Luồng thay thế:}
 
 \begin{itemize}[leftmargin=1.4em]
-\item 2a. Sinh viên không có hợp đồng đang hiệu lực:** Hệ thống thông báo sinh viên không có hợp đồng hợp lệ và không cho phép gửi yêu cầu trả phòng.
-\item 4a. Sinh viên không nhập ghi chú:** Hệ thống cho phép tiếp tục thực hiện vì ghi chú là thông tin không bắt buộc.
-\item 5a. Sinh viên hủy thao tác:** Hệ thống quay lại màn hình quản lý hợp đồng và không tạo yêu cầu trả phòng.
-\item Luồng ngoại lệ:**
-\item 1a. Phiên đăng nhập không hợp lệ:** Hệ thống yêu cầu sinh viên đăng nhập lại trước khi tiếp tục thao tác.
-\item 6a. Thông tin không hợp lệ:** Hệ thống hiển thị thông báo lỗi và yêu cầu sinh viên chỉnh sửa thông tin.
-\item 6b. Trạng thái hợp đồng thay đổi:** Nếu hợp đồng không còn hiệu lực tại thời điểm xử lý, hệ thống từ chối tạo yêu cầu.
-\item 9a. Lỗi lưu dữ liệu:** Hệ thống thông báo lỗi, không tạo yêu cầu trả phòng và giữ nguyên dữ liệu hiện tại.
+\item 2a. Sinh viên không có hợp đồng đang hiệu lực: Hệ thống thông báo sinh viên không có hợp đồng hợp lệ và không cho phép gửi yêu cầu trả phòng.
+\item 4a. Sinh viên không nhập ghi chú: Hệ thống cho phép tiếp tục thực hiện vì ghi chú là thông tin không bắt buộc.
+\item 5a. Sinh viên hủy thao tác: Hệ thống quay lại màn hình quản lý hợp đồng và không tạo yêu cầu trả phòng.
+\item Luồng ngoại lệ:
+\item 1a. Phiên đăng nhập không hợp lệ: Hệ thống yêu cầu sinh viên đăng nhập lại trước khi tiếp tục thao tác.
+\item 6a. Thông tin không hợp lệ: Hệ thống hiển thị thông báo lỗi và yêu cầu sinh viên chỉnh sửa thông tin.
+\item 6b. Trạng thái hợp đồng thay đổi: Nếu hợp đồng không còn hiệu lực tại thời điểm xử lý, hệ thống từ chối tạo yêu cầu.
+\item 9a. Lỗi lưu dữ liệu: Hệ thống thông báo lỗi, không tạo yêu cầu trả phòng và giữ nguyên dữ liệu hiện tại.
 \end{itemize}
 
 \subsubsection{Quy tắc nghiệp vụ và dữ liệu liên quan}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Biểu đồ hoạt động UC09}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsection{UC10 Cán bộ xác nhận hoàn tất trả phòng}
 
 \subsubsection{Mục đích và mô tả chức năng}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Tác nhân, tiền điều kiện và hậu điều kiện}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Luồng sự kiện chính}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Luồng thay thế và ngoại lệ}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Quy tắc nghiệp vụ và dữ liệu liên quan}
-\textit{Phần này đang được bổ sung trong các phiên bản tiếp theo của báo cáo.}
 
 
 \subsubsection{Biểu đồ hoạt động UC10}
 
-\#\#\#
 
-\#\#

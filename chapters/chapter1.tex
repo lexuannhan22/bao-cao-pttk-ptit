@@ -132,9 +132,11 @@ Khi không tiếp tục lưu trú, sinh viên gửi yêu cầu trả phòng và 
 
 Dữ liệu phòng và giường là nền tảng của toàn bộ quy trình. Kết quả tìm phòng giúp sinh viên lựa chọn nhưng không tự giữ chỗ. Yêu cầu đặt phòng là căn cứ để cán bộ thực hiện giữ chỗ. Dữ liệu giữ chỗ được dùng khi lập hợp đồng; hợp đồng có hiệu lực là cơ sở lập khoản phí và xác định quyền sử dụng giường. Khi trả phòng hoàn tất, trạng thái hợp đồng và giường phải được cập nhật đồng thời để khép kín vòng đời dữ liệu.
 
-Mối quan hệ trên đòi hỏi hệ thống kiểm soát chuyển trạng thái thay vì chỉ lưu các biểu mẫu rời rạc. Một bản ghi không được chuyển sang trạng thái mới nếu điều kiện của giai đoạn trước chưa được đáp ứng. Các quy tắc cụ thể sẽ được trình bày trong Chương II và được hiện thực hóa bằng lớp xử lý, cơ sở dữ liệu và giao diện ở Chương III.
+Mối quan hệ trên đòi hỏi hệ thống kiểm soát chuyển trạng thái thay vì chỉ lưu các biểu mẫu rời rạc. Một bản ghi không được chuyển sang trạng thái mới nếu điều kiện của giai đoạn trước chưa được đáp ứng. Các quy tắc nghiệp vụ và Use Case được phân tích tại Chương II; định hướng công nghệ được trình bày ở phần tiếp theo của chương này.
+
 
 \section{Định hướng giải pháp công nghệ}
+
 
 \subsection{Giao diện người dùng bằng ReactJS}
 
@@ -147,7 +149,7 @@ Trong hệ thống, ReactJS cung cấp hai nhóm giao diện theo quyền sử d
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.72\textwidth]{assets/image1.png}
-\caption{ReactJs}
+\caption{Công nghệ ReactJS}
 \label{fig:reactjs}
 \end{figure}
 
@@ -162,7 +164,7 @@ Backend Java cung cấp các dịch vụ web để giao diện gửi yêu cầu 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.72\textwidth]{assets/image2.png}
-\caption{Java}
+\caption{Ngôn ngữ lập trình Java}
 \label{fig:java}
 \end{figure}
 
@@ -177,7 +179,7 @@ Những thao tác làm thay đổi nhiều bản ghi được thực hiện tron
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.72\textwidth]{assets/image3.png}
-\caption{PosgreSql}
+\caption{Hệ quản trị cơ sở dữ liệu PostgreSQL}
 \label{fig:postgresql}
 \end{figure}
 

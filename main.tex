@@ -1,14 +1,19 @@
 % !TeX program = xelatex
-% Mẫu tối giản: chỉ trang bìa và mục lục.
 \documentclass[12pt,a4paper]{report}
 
-\usepackage[a4paper,left=3cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage[a4paper,left=3cm,right=2cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage{fontspec}
-\setmainfont{Times New Roman}
-\setsansfont{Times New Roman}
+\IfFontExistsTF{Times New Roman}{
+  \setmainfont{Times New Roman}
+  \setsansfont{Times New Roman}
+}{
+  \setmainfont{Liberation Serif}
+  \setsansfont{Liberation Sans}
+}
 \usepackage{graphicx}
 \usepackage{array}
 \usepackage{tabularx}
+\usepackage{xltabular}
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage{caption}
@@ -26,13 +31,13 @@
 \newcommand{\FacultyName}{KHOA CÔNG NGHỆ THÔNG TIN 1}
 \newcommand{\DepartmentName}{BỘ MÔN TIN HỌC CƠ SỞ}
 \newcommand{\ReportTitle}{HỆ THỐNG QUẢN LÝ KÝ TÚC XÁ PTIT}
-\newcommand{\AdvisorName}{ĐỖ DUY HIỆP}
+\newcommand{\AdvisorName}{ThS. Nguyễn Đình Hiến}
 \newcommand{\StudentName}{}
 \newcommand{\StudentID}{}
 \newcommand{\ClassName}{}
-\newcommand{\GroupNumber}{01}
+\newcommand{\GroupNumber}{12}
 \newcommand{\ReportPlace}{Hà Nội}
-\newcommand{\ReportMonth}{10}
+\newcommand{\ReportMonth}{11}
 \newcommand{\ReportYear}{2026}
 
 \hypersetup{
@@ -42,10 +47,32 @@
   pdfauthor={\StudentName}
 }
 \renewcommand{\contentsname}{MỤC LỤC}
+\renewcommand{\listfigurename}{DANH MỤC HÌNH VẼ}
+\renewcommand{\listtablename}{DANH MỤC BẢNG BIỂU}
+\renewcommand{\figurename}{Hình}
+\renewcommand{\tablename}{Bảng}
 \renewcommand{\chaptername}{CHƯƠNG}
 \renewcommand{\cftchappresnum}{Chương~}
 \renewcommand{\cftchapaftersnum}{\quad}
 \setlength{\cftchapnumwidth}{2.25cm}
+\renewcommand{\cfttoctitlefont}{\hfill\bfseries\Large}
+\renewcommand{\cftaftertoctitle}{\hfill}
+\renewcommand{\cftloftitlefont}{\hfill\bfseries\Large}
+\renewcommand{\cftafterloftitle}{\hfill}
+\renewcommand{\cftlottitlefont}{\hfill\bfseries\Large}
+\renewcommand{\cftafterlottitle}{\hfill}
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftchappagefont}{\bfseries}
+\setlength{\cftbeforechapskip}{6pt}
+\setlength{\cftsecindent}{1.25em}
+\setlength{\cftsubsecindent}{2.5em}
+\renewcommand{\cfttabpresnum}{Bảng~}
+\renewcommand{\cfttabaftersnum}{\quad}
+\setlength{\cfttabnumwidth}{2.4cm}
+\renewcommand{\cftfigpresnum}{Hình~}
+\renewcommand{\cftfigaftersnum}{\quad}
+\setlength{\cftfignumwidth}{2.4cm}
+\setcounter{tocdepth}{2}
 \titleformat{\chapter}[block]
   {\normalfont\bfseries\centering\Large}
   {\chaptername\ \thechapter.}
@@ -59,8 +86,9 @@
 \titlespacing*{\paragraph}{0pt}{0.8em}{0.4em}
 \setstretch{1.15}
 \setlength{\parindent}{1.25cm}
-\setlength{\parskip}{0pt}
-\captionsetup{font=small,labelfont=bf,skip=6pt}
+\setlength{\parskip}{0.25em}
+\renewcommand{\arraystretch}{1.12}
+\captionsetup{font=small,labelfont=bf,skip=8pt}
 \captionsetup[table]{position=top}
 \captionsetup[figure]{position=bottom}
 \setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt}
@@ -91,17 +119,39 @@
   \includegraphics[width=3.1cm]{assets/ptit_logo.png}%
 }{\fbox{\parbox[c][3.1cm][c]{3.1cm}{\centering Logo PTIT}}}
 
-\vspace{2.5cm}
+\vspace{1.7cm}
+{\bfseries\Large BÁO CÁO BÀI TẬP LỚN\par}
+\vspace{0.35cm}
+{\bfseries\large\parbox{0.88\textwidth}{\centering PHÂN TÍCH \& THIẾT KẾ HỆ THỐNG THÔNG TIN}\par}
+
+\vspace{0.65cm}
 {\bfseries\Large\parbox{0.88\textwidth}{\centering \ReportTitle}\par}
 
-\vspace{1.8cm}
+\vspace{1.2cm}
 \renewcommand{\arraystretch}{1.05}
 \begin{tabular}{>{\bfseries}p{5.0cm}p{0.35cm}p{6.3cm}}
 Giảng viên hướng dẫn & : & \AdvisorName \\
-Sinh viên thực hiện & : & \StudentName \\
-Mã sinh viên & : & \StudentID \\
-Lớp & : & \ClassName \\
-Nhóm & : & \GroupNumber \\
+Nhóm môn học & : & \GroupNumber \\
+Nhóm bài tập lớn & : & 05 \\
+\end{tabular}
+
+\vspace{0.3cm}
+{\bfseries Sinh viên thực hiện\par}
+\vspace{0.1cm}
+\begin{tabular}{|>{\centering\arraybackslash}p{6.5cm}|>{\centering\arraybackslash}p{4cm}|}
+\hline
+\bfseries Tên sinh viên & \bfseries Mã sinh viên \\
+\hline
+Đinh Việt Dũng & B23DCKH031 \\
+\hline
+Nguyễn Vĩnh Tùng & B23DCKH130 \\
+\hline
+Nguyễn Văn Tuấn & B23DCKH128 \\
+\hline
+Lê Xuân Nhân & B23DCKH083 \\
+\hline
+Đỗ Quang Huân & B23DCKH051 \\
+\hline
 \end{tabular}
 
 \vfill
@@ -110,16 +160,25 @@ Nhóm & : & \GroupNumber \\
 \end{center}
 \end{titlepage}
 
-% Mục lục trống: chưa có bất kỳ nội dung/chương nào.
 \clearpage
 \setcounter{page}{2}
 \pagestyle{plain}
+\input{frontmatter/introduction.tex}
+\clearpage
 \phantomsection
 \addcontentsline{toc}{chapter}{\contentsname}
 \tableofcontents
+\clearpage
+\input{frontmatter/abbreviations.tex}
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables
+\clearpage
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
 
-% Các tệp dưới đây chỉ chứa tiêu đề để tạo sẵn cấu trúc mục lục.
-\input{frontmatter/introduction.tex}
 \input{chapters/chapter1.tex}
 \input{chapters/chapter2.tex}
 \input{chapters/conclusion.tex}

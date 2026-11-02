@@ -4,7 +4,7 @@ Thư mục này chứa template LaTeX cho báo cáo PTIT, hỗ trợ hai kiểu 
 
 - `TTTN`: Báo cáo thực tập tốt nghiệp.
 - `BTL`: Báo cáo bài tập lớn.
-> **Lưu ý**: Đây là bản mẫu biên dịch bằng **XeLaTeX** (dùng font hệ thống `Times New Roman`). Nếu bạn muốn biên dịch bằng **pdfLaTeX** (mặc định trên Overleaf và TeX thông thường), vui lòng sử dụng bản mẫu tại [pdflatex_report_template](../pdflatex_report_template).
+> **Lưu ý**: Đây là bản mẫu biên dịch bằng **XeLaTeX**. Báo cáo dùng `Times New Roman` nếu font đã được cài đặt; nếu chưa có, tự chuyển sang `Liberation Serif` và `Liberation Sans`. Nếu bạn muốn biên dịch bằng **pdfLaTeX** (mặc định trên Overleaf và TeX thông thường), vui lòng sử dụng bản mẫu tại [pdflatex_report_template](../pdflatex_report_template).
 
 
 ## Cấu trúc thư mục
@@ -39,7 +39,7 @@ Template đang cấu hình các quy cách trình bày chính trong `main.tex`:
 
 - Khổ giấy: A4.
 - Lề: trái `3.0cm`, phải `2.0cm`, trên `2.0cm`, dưới `2.0cm`.
-- Font nội dung: `Times New Roman`.
+- Font nội dung: `Times New Roman`, hoặc `Liberation Serif` khi Times New Roman chưa được cài đặt.
 - Cỡ chữ nội dung: `12pt`.
 - Giãn dòng: `1.15`.
 - Thụt đầu dòng: `1.25cm`.
